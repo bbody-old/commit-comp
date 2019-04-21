@@ -1,29 +1,65 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <v-app>
+      <router-view/>
+    </v-app>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import {
+  State,
+  Getter,
+  Action,
+  Mutation,
+  namespace,
+} from 'vuex-class';
+
+const moment = require('moment');
+
+function isValidDate(rawDate: any) {
+  const date = moment(rawDate, 'YYYY-MM-DD', true);
+  return date.isValid();
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+
+@Component
+export default class App extends Vue {
+  public created() {
+    const usersQuery = this.$route.query.users as string;
+    let users: string[] = [];
+
+
+    if (usersQuery) {
+      users = usersQuery.split(',');
     }
+
+    const start = this.$route.query.start && isValidDate(this.$route.query.start) ? this.$route.query.start : false;
+    const end = this.$route.query.end && isValidDate(this.$route.query.end) ? this.$route.query.end : false;
+
+    if (!start && !end) { // Default to this month
+      const now = moment();
+
+      now.date(1);
+      this.$store.commit('setDate', { type: 'start', date: now.format('YYYY-MM-DD')});
+
+      now.add(1, 'month').subtract(1, 'day');
+      this.$store.commit('setDate', { type: 'end', date: now.format('YYYY-MM-DD')});
+    } else if (!end) {
+      this.$store.commit('setDate', { type: 'start', date: start});
+    } else if (!start) {
+      this.$store.commit('setDate', { type: 'end', date: end});
+    } else {
+      this.$store.commit('setDate', { type: 'start', date: start});
+      this.$store.commit('setDate', { type: 'end', date: end});
+    }
+
+    const self = this;
+    users.forEach(function(user) {
+      self.$store.dispatch('getGithubData', user);
+    });
   }
 }
-</style>
+</script>
+
