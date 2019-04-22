@@ -17,10 +17,16 @@ interface ContributorInfo {
   commits: number;
   streak: number;
   percentageOfDays: number;
+  commitsPerDay: number;
 }
 
 interface FormattedContributions {
   [username: string]: ContributorInfo;
+}
+
+interface Ranking {
+  name: string;
+  id: string;
 }
 
 interface HeatMapInfo {

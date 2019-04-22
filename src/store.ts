@@ -15,8 +15,22 @@ export default new Vuex.Store({
     } as DateRange,
     formattedContributions: {} as FormattedContributions,
     heatMap: {} as HeatMap,
+    apiError: false as boolean,
+    usernameError: '' as string,
+    rankings: [
+      { name: 'Total commits', id: 'commits' },
+      { name: 'Commits/day', id: 'commitsPerDay' },
+      { name: 'Days with commits', id: 'daysWithCommits' },
+      { name: 'Percentage of days', id: 'percentage' },
+      { name: 'Longest streak', id: 'streak' },
+    ] as Ranking[],
+    ranking: 'commits' as string,
   },
   getters: {
+    getRanking: (store) => store.ranking,
+    getRankings: (store) => store.rankings,
+    getUsernameError: (store) => store.usernameError,
+    hasAPIError: (store) => store.apiError,
     getHeatMapData: (store) => (username: string) => store.heatMap[username],
     getAllUsersInfo: (store, getters) => {
       const users = getters.getUsers;
@@ -44,6 +58,7 @@ export default new Vuex.Store({
         commits: 0,
         streak: 0,
         percentageOfDays: 0,
+        commitsPerDay: 0,
       } as ContributorInfo;
 
       let streak = 0;
@@ -85,6 +100,13 @@ export default new Vuex.Store({
         (formattedContributionInfo.daysWithCommits / formattedContributionInfo.total)
         * 100.0);
 
+      if (formattedContributionInfo.total > 0) {
+        formattedContributionInfo.commitsPerDay =
+          (formattedContributionInfo.commits / formattedContributionInfo.total) * 100.0;
+      } else {
+        formattedContributionInfo.commitsPerDay = 0;
+      }
+
       return formattedContributionInfo;
     },
     // getContributions: (store) => (username: string) => store.formattedContributions[user],
@@ -93,22 +115,21 @@ export default new Vuex.Store({
       let listToRank: any[] = [];
       store.users.forEach((user: string) => {
         const info = getters.getContributionInfo(user);
-        console.log(info);
         if (!info) {
           listToRank.push(info);
         }
       });
 
+      const rankingAttribute = getters.getRanking;
       // let users = Object.values(store.formattedContributions);
       listToRank = listToRank.sort((a, b) => {
-        return b.daysWithCommits - a.daysWithCommits;
+        return b[rankingAttribute] - a[rankingAttribute];
       });
 
       return listToRank.map((a) => a.username);
-      // return ['bbody'];
     },
     getShareLink: (store, getters) => {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://commit-comp.bbody.io';
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://commit-comp.bbody.io';
       const users = getters.getUsers;
       const startDate = getters.getStartDate;
       const endDate = getters.getEndDate;
@@ -117,7 +138,7 @@ export default new Vuex.Store({
       const query = [];
 
       if (users && users.length) {
-        query.push(`users=${query.push(users.join(','))}`);
+        query.push(`users=${users.join(',')}`);
       }
 
       if (startDate) {
@@ -162,6 +183,16 @@ export default new Vuex.Store({
     setDate: (store, {type, date}) => {
       store.range[type] = date;
     },
+    setAPIError: (store) => {
+      store.apiError = true;
+      setTimeout(() => {
+        store.apiError = false;
+      }, 1500);
+    },
+    setRanking: (store, ranking) => {
+      // store.ranking = ranking;
+      Vue.set(store, 'ranking', ranking);
+    },
   },
   actions: {
     setRange: (context, range) => {
@@ -176,81 +207,8 @@ export default new Vuex.Store({
         })
         .then((contributionInfo) => {
             context.commit('setContributions', {username, payload: contributionInfo});
-            // let formattedContributionInfo = {
-            //   days: [],
-            //   dates: [],
-            //   colours: [],
-            //   daysWithCommits: 0,
-            //   daysWithoutCommits: 0,
-            //   total: 0,
-            //   username,
-            //   commits: 0,
-            //   streak: 0
-            // };
+
             const state = context.state;
-
-            // for (let year = state.startDate.year; year <= state.endDate.year; year++) { // Loop through years
-            //   for (let month = state.startDate.month; month <= state.endDate.month; month++) { // Loop through months
-            //     for (let day = state.startDate.day; day <= state.endDate.day; day++) { // Loop through days
-            //       const contribution = year == 2019 ?
-            //         contributionInfo.contributions[year][month][day] : contributionInfo[year][month][day];
-            //       const count = contribution.count;
-            //       const colour = contribution.color;
-            //       const date = contribution.date;
-
-            //       formattedContributionInfo.days.push(count);
-            //       formattedContributionInfo.colours.push(colour);
-            //       formattedContributionInfo.dates.push(date);
-
-            //       formattedContributionInfo.username = username;
-            //       if (count > 0) {
-            //         formattedContributionInfo.daysWithCommits++;
-            //       } else {
-            //         formattedContributionInfo.daysWithoutCommits++;
-            //       }
-            //     }
-            //   }
-            // }
-            // const now = moment();
-            // let tempDate = getMomentDate(state.startDate);
-            // const endDate = getMomentDate(state.endDate);
-            // let currentStreak = 0;
-            // while (true) {
-            //   if (tempDate.isAfter(endDate) || tempDate.isSameOrAfter(now)) {
-            //     break;
-            //   }
-
-            //   const year = tempDate.year();
-            //   const month = tempDate.month() + 1;
-            //   const day = tempDate.date();
-
-            //   console.log('month', month);
-
-            //   const contribution = year === now.year() ?
-            //     contributionInfo.contributions[year][month][day] : contributionInfo[year][month][day];
-            //   const count = contribution.count;
-            //   const colour = contribution.color;
-            //   const date = contribution.date;
-
-            //   formattedContributionInfo.days.push(count);
-            //   formattedContributionInfo.colours.push(colour);
-            //   formattedContributionInfo.dates.push(date);
-
-            //   formattedContributionInfo.username = username;
-            //   formattedContributionInfo.commits += count;
-
-            //   if (count > 0) {
-            //     formattedContributionInfo.daysWithCommits++;
-            //     currentStreak++;
-            //     formattedContributionInfo.streak = Math.max(currentStreak, formattedContributionInfo.streak);
-            //   } else {
-            //     formattedContributionInfo.streak = Math.max(currentStreak, formattedContributionInfo.streak);
-            //     currentStreak = 0;
-            //     formattedContributionInfo.daysWithoutCommits++;
-            //   }
-            //   console.log(tempDate.format('DD/MM/YYYY'), count);
-            //   tempDate = tempDate.add('day', 1);
-            // }
             const details = [];
             const now  = moment();
             let tempDate = moment().subtract('year', 1);
@@ -278,32 +236,10 @@ export default new Vuex.Store({
               }
 
             context.commit('setHeatMap', {username, payload: details});
-
-
-
-            // for (let year = oneYearAgo.year(); year <= state.endDate.year; year++) { // Loop through years
-            //   for (let month = oneYearAgo.month(); month <= state.endDate.month; month++) { // Loop through months
-            //     for (let day = oneYearAgo.day(); day <= state.endDate.day; day++) { // Loop through days
-            //       const contribution = year == 2019 ?
-            //         contributionInfo.contributions[year][month][day] : contributionInfo[year][month][day];
-            //       const count = contribution.count;
-            //       const colour = contribution.color;
-            //       const date = contribution.date;
-
-            //       formattedContributionInfo.days.push(count);
-            //       formattedContributionInfo.colours.push(colour);
-            //       formattedContributionInfo.dates.push(date);
-            //     }
-            //   }
-            // }
-            // formattedContributionInfo.total = formattedContributionInfo.daysWithCommits +
-            //   formattedContributionInfo.daysWithoutCommits;
-
-            // context.commit('setFormattedContributions', {username, payload: formattedContributionInfo});
         })
         .catch((error: Error) => {
           context.commit('setFormattedContributions', {username, payload: false});
-          console.error(error);
+          context.commit('setAPIError', true);
         });
     },
   },

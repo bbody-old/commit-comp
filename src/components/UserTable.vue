@@ -2,16 +2,14 @@
     <v-data-table
     :headers="headers"
     :items="getAllUsersInfo"
-    default-sort="rank:asc"
     class="elevation-1"
+    hide-actions
     >
       <template v-slot:items="props">
-          <td>
-          {{props.index + 1}}
-          </td>
           <td>{{ props.item.username }}</td>
           <td>{{ props.item.commits }}</td>
           <td>{{ props.item.daysWithCommits }} {{ props.item.streak === 1 ? 'day' : 'days' }}</td>
+          <td>{{ props.item.commitsPerDay.toFixed(2) }}/day</td>
           <td>{{ props.item.percentageOfDays.toFixed(2) }}%</td>
           <td>{{ props.item.streak }} {{ props.item.streak === 1 ? 'day' : 'days' }}</td>
       </template>
@@ -28,19 +26,13 @@ export default class UserTable extends Vue {
     @Getter('getAllUsersInfo') private getAllUsersInfo: any;
     private headers = [
         {
-          text: 'Rank',
-          align: 'center',
-          sortable: true,
-          value: 'rank',
-        },
-        {
           text: 'Username',
           align: 'center',
           sortable: false,
           value: 'username',
         },
         {
-          text: 'Total Commits',
+          text: 'Total commits',
           align: 'center',
           sortable: true,
           value: 'commits',
@@ -50,6 +42,12 @@ export default class UserTable extends Vue {
           align: 'center',
           sortable: true,
           value: 'daysWithCommits',
+        },
+        {
+          text: 'Commits per day',
+          align: 'center',
+          sortable: true,
+          value: 'commitsPerDay',
         },
         {
           text: 'Percentage of days',

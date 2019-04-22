@@ -8336,10 +8336,6 @@ uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
-v-click-outside@^2.0.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/v-click-outside/-/v-click-outside-2.1.1.tgz#5af80b68a1c82eac89c597890434fa3994b42ed1"
-
 v-clipboard@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/v-clipboard/-/v-clipboard-2.2.2.tgz#6144e3c5b895ead35463386aa660360a9f88fabf"
@@ -8380,12 +8376,6 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
-
-vue-airbnb-style-datepicker@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/vue-airbnb-style-datepicker/-/vue-airbnb-style-datepicker-2.7.0.tgz#3a4447df0a4c1a4698c3accbf902065b2e9da080"
-  dependencies:
-    v-click-outside "^2.0.1"
 
 vue-calendar-heatmap@^0.8.4:
   version "0.8.4"

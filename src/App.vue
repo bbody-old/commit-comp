@@ -17,12 +17,13 @@ import {
   namespace,
 } from 'vuex-class';
 
-const moment = require('moment');
+// const moment = require('moment');
+import moment from 'moment';
 
-function isValidDate(rawDate: any) {
+const isValidDate = (rawDate: any) => {
   const date = moment(rawDate, 'YYYY-MM-DD', true);
   return date.isValid();
-}
+};
 
 @Component
 export default class App extends Vue {
@@ -56,9 +57,17 @@ export default class App extends Vue {
     }
 
     const self = this;
-    users.forEach(function(user) {
+    users.forEach((user) => {
       self.$store.dispatch('getGithubData', user);
     });
+
+
+    const query = Object.assign({}, this.$route.query);
+    delete query.users;
+    delete query.start;
+    delete query.end;
+
+    this.$router.replace({query});
   }
 }
 </script>

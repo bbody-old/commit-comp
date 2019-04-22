@@ -11,7 +11,7 @@
                 :disabled="copying"
                 color="success"
                 v-clipboard:success="updateCopy"
-                v-clipboard="getShareLink"
+                v-clipboard:copy="() => getLink"
                 >
                 Copy to clipboard
                 <template v-slot:loader>
@@ -33,11 +33,15 @@ export default class ShareUrl extends Vue {
 
     public copying: boolean = false;
 
+    private get getLink() {
+        return this.getShareLink;
+    }
+
     public updateCopy() {
         this.copying = true;
 
         const self = this;
-        setTimeout(function() {
+        setTimeout(() => {
             self.copying = false;
         }, 1_000);
     }
