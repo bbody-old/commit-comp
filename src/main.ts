@@ -6,7 +6,7 @@ import Clipboard from 'v-clipboard';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'; // Ensure you are using css-loader
 import 'vue-calendar-heatmap/dist/vue-calendar-heatmap.css';
-import HeatMap from 'vue-calendar-heatmap';
+const HeatMap = require('vue-calendar-heatmap');
 
 Vue.use(Clipboard);
 Vue.use(Vuetify);
