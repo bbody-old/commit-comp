@@ -17,18 +17,8 @@ export default new Vuex.Store({
     heatMap: {} as HeatMap,
     apiError: false as boolean,
     usernameError: '' as string,
-    rankings: [
-      { name: 'Total commits', id: 'commits' },
-      { name: 'Commits/day', id: 'commitsPerDay' },
-      { name: 'Days with commits', id: 'daysWithCommits' },
-      { name: 'Percentage of days', id: 'percentage' },
-      { name: 'Longest streak', id: 'streak' },
-    ] as Ranking[],
-    ranking: 'commits' as string,
   },
   getters: {
-    getRanking: (store) => store.ranking,
-    getRankings: (store) => store.rankings,
     getUsernameError: (store) => store.usernameError,
     hasAPIError: (store) => store.apiError,
     getHeatMapData: (store) => (username: string) => store.heatMap[username],

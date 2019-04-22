@@ -1,30 +1,12 @@
 <template>
 <div>
   <v-container grid-list-md text-xs-center>
-    <v-layout row wrap>
-      <v-flex xs12 md4>
-        <h1>Commit Competition</h1>
-      </v-flex>
-      <v-flex xs12 offset-md4 md4>
-        <v-select
-          :value="getRanking"
-          :items="getRankings"
-          @change="setRanking"
-          menu-props="auto"
-          label="Rank by"
-          item-text="name"
-          item-value="id"
-          hide-details
-          prepend-icon="gavel"
-          single-line
-        ></v-select>
-      </v-flex>
-      <v-alert
-        :value="hasAPIError"
-        type="error">
-        API does not appear to be working, please try again later
-      </v-alert>
-    </v-layout>
+    <h1>Commit Competition</h1>
+    <v-alert
+      :value="hasAPIError"
+      type="error">
+      API does not appear to be working, please try again later
+    </v-alert>
     <v-layout row wrap>
       <v-flex xs12 md9 v-if="getAllUsersInfo">
         <UserTable />
@@ -70,8 +52,5 @@ export default class Home extends Vue {
   @Getter('getAllUsersInfo') private getAllUsersInfo: any;
   @Getter('hasAPIError') private hasAPIError!: boolean;
   @Getter('getUsernameError') private getUsernameError!: string;
-  @Getter('getRankings') private getRankings!: string[];
-  @Getter('getRanking') private getRanking!: string;
-  @Mutation('setRanking') private setRanking!: (store: any, ranking: string) => {};
 }
 </script>
