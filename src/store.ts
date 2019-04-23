@@ -21,10 +21,10 @@ export default new Vuex.Store({
   getters: {
     getUsernameError: (store) => store.usernameError,
     hasAPIError: (store) => store.apiError,
-    getHeatMapData: (store) => (username: string) => store.heatMap[username],
     getAllUsersInfo: (store, getters) => {
       const users = getters.getUsers;
       const infoArray: any[] = [];
+
       users.forEach((user: string) => {
         const info = getters.getContributionInfo(user);
         if (info) {
@@ -36,7 +36,6 @@ export default new Vuex.Store({
     getContributionInfo: (store) => (username: string) => {
       const tempDate = moment(store.range.start, 'YYYY-MM-DD');
       const endDate = moment(store.range.end, 'YYYY-MM-DD');
-      const contributions = store.formattedContributions[username];
 
       const formattedContributionInfo = {
         counts: [],
@@ -90,19 +89,19 @@ export default new Vuex.Store({
         (formattedContributionInfo.daysWithCommits / formattedContributionInfo.total)
         * 100.0);
 
-      if (formattedContributionInfo.total > 0) {
+      if (formattedContributionInfo.commits > 0) {
         formattedContributionInfo.commitsPerDay =
-          (formattedContributionInfo.commits / formattedContributionInfo.total) * 100.0;
+          formattedContributionInfo.commits / formattedContributionInfo.total;
       } else {
         formattedContributionInfo.commitsPerDay = 0;
       }
 
       return formattedContributionInfo;
     },
-    // getContributions: (store) => (username: string) => store.formattedContributions[user],
     getUsers: (store) => store.users,
     getRankedUsers: (store, getters) => {
       let listToRank: any[] = [];
+
       store.users.forEach((user: string) => {
         const info = getters.getContributionInfo(user);
         if (!info) {
@@ -111,7 +110,7 @@ export default new Vuex.Store({
       });
 
       const rankingAttribute = getters.getRanking;
-      // let users = Object.values(store.formattedContributions);
+
       listToRank = listToRank.sort((a, b) => {
         return b[rankingAttribute] - a[rankingAttribute];
       });
@@ -124,7 +123,6 @@ export default new Vuex.Store({
       const startDate = getters.getStartDate;
       const endDate = getters.getEndDate;
 
-      const usersQuery = users && users.length ? `users=${users}&` : '';
       const query = [];
 
       if (users && users.length) {
@@ -139,22 +137,15 @@ export default new Vuex.Store({
         query.push(`end=${endDate}`);
       }
 
-      const queryUrl = query.length > 0 ? `?${query.join('&')}` : '';
+      const urlQuery = query.length > 0 ? `?${query.join('&')}` : '';
 
-      return `${baseUrl}/#/${queryUrl}`;
+      return `${baseUrl}/#/${urlQuery}`;
     },
-    getStartDate: (store) => {
-      return store.range.start;
-    },
-    getEndDate: (store) => {
-      return store.range.end;
-    },
-    getRange: (store, getters) => {
-      const rangeObject = {
-        start: getters.getStartDate,
-        end: getters.getEndDate,
+    getRange: (store) => {
+      return {
+        start: store.range.start,
+        end: store.range.end,
       };
-      return rangeObject;
     },
   },
   mutations: {
@@ -167,9 +158,6 @@ export default new Vuex.Store({
     setContributions: (store, data) => {
       Vue.set(store.contributionInfo, data.username, data.payload);
     },
-    setHeatMap: (store, {username, payload}) => {
-      store.heatMap[username] = payload;
-    },
     setDate: (store, {type, date}) => {
       store.range[type] = date;
     },
@@ -180,7 +168,6 @@ export default new Vuex.Store({
       }, 1500);
     },
     setRanking: (store, ranking) => {
-      // store.ranking = ranking;
       Vue.set(store, 'ranking', ranking);
     },
   },
@@ -197,35 +184,6 @@ export default new Vuex.Store({
         })
         .then((contributionInfo) => {
             context.commit('setContributions', {username, payload: contributionInfo});
-
-            const state = context.state;
-            const details = [];
-            const now  = moment();
-            let tempDate = moment().subtract('year', 1);
-
-              // const contributionInfo = state.contributionInfo[username];
-            while (true) {
-                if (tempDate.isAfter(now)) {
-                  break;
-                }
-
-                const year = tempDate.year();
-                const month = tempDate.month() + 1;
-                const date = tempDate.date();
-
-                const contribution = year === now.year() ?
-                  contributionInfo.contributions[year][month][date] :
-                  contributionInfo[year][month][date];
-
-                details.push({
-                  date: contribution.date,
-                  count: contribution.count,
-                } as HeatMap);
-
-                tempDate = tempDate.add('day', 1);
-              }
-
-            context.commit('setHeatMap', {username, payload: details});
         })
         .catch((error: Error) => {
           context.commit('setFormattedContributions', {username, payload: false});

@@ -46,9 +46,7 @@ import {
 
 @Component({components: {Users, ShareUrl, DateSelection, UserTable}})
 export default class Home extends Vue {
-  @Getter('getRankedUsers') private getRankedUsers: any;
   @Getter('getContributionInfo') private getContributionInfo: any;
-  @Getter('getHeatMapData') private getHeatMapData: any;
   @Getter('getAllUsersInfo') private getAllUsersInfo: any;
   @Getter('hasAPIError') private hasAPIError!: boolean;
   @Getter('getUsernameError') private getUsernameError!: string;
