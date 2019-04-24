@@ -1,4 +1,26 @@
-# commit-comp
+# Commit Comp
+
+App to track Github commit competitions, can view and rank by:
+
+- Total commits
+- Days with commits
+- Commits per day
+- Percentage of days
+- Longest streak
+
+[Demo](https://commit-comp.bbody.io)
+
+## Built with
+
+- [VueJS](https://vuejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Yarn](https://yarnpkg.com/)
+- [Vuetify](https://vuetifyjs.com/)
+- [VueX](https://vuex.vuejs.org/)
+- [TSLint](https://palantir.github.io/tslint/)
+- [Jest])(https://jestjs.io/)
+- [Cypress](https://www.cypress.io/)
+- [MomentJS](https://momentjs.com/)
 
 ## Project setup
 ```
