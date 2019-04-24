@@ -10,6 +10,8 @@ App to track Github commit competitions, can view and rank by:
 
 [Demo](https://commit-comp.bbody.io)
 
+![Screenshot](screenshot.png)
+
 ## Built with
 
 - [VueJS](https://vuejs.org/)
@@ -18,7 +20,7 @@ App to track Github commit competitions, can view and rank by:
 - [Vuetify](https://vuetifyjs.com/)
 - [VueX](https://vuex.vuejs.org/)
 - [TSLint](https://palantir.github.io/tslint/)
-- [Jest])(https://jestjs.io/)
+- [Jest](https://jestjs.io/)
 - [Cypress](https://www.cypress.io/)
 - [MomentJS](https://momentjs.com/)
 
