@@ -118,7 +118,7 @@ export default new Vuex.Store({
       return listToRank.map((a) => a.username);
     },
     getShareLink: (store, getters) => {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://commit-comp.bbody.io';
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://commit-comp.bbody.io';
       const users = getters.getUsers;
       const startDate = getters.getStartDate;
       const endDate = getters.getEndDate;
