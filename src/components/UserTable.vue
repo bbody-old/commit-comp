@@ -50,7 +50,7 @@ export default class UserTable extends Vue {
           value: 'commitsPerDay',
         },
         {
-          text: 'Percentage of days',
+          text: '% of days',
           align: 'center',
           sortable: true,
           value: 'percentageOfDays',

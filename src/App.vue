@@ -37,8 +37,10 @@ export default class App extends Vue {
       users = usersQuery.split(',');
     }
 
-    let start = this.$route.query.start && isValidDate(this.$route.query.start) ? this.$route.query.start : false;
-    let end = this.$route.query.end && isValidDate(this.$route.query.end) ? this.$route.query.end : false;
+    let start = (this.$route.query.start && isValidDate(this.$route.query.start) ?
+      this.$route.query.start : '') as string;
+    let end = (this.$route.query.end && isValidDate(this.$route.query.end) ?
+      this.$route.query.end : '') as string;
 
     if (!start && !end) { // Default to this month
       const now = moment();
