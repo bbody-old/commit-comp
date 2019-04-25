@@ -3,14 +3,7 @@
     <v-toolbar color="light-blue lighten-1" dark>
       <v-toolbar-title>Github Users</v-toolbar-title>
     </v-toolbar>
-
-    <v-alert
-      :value="validUser"
-      type="success"
-    >
-      Successfully added {{validUser}}.
-    </v-alert>
-
+    
     <v-alert
       :value="invalidUser"
       type="error"
@@ -66,7 +59,6 @@ export default class Users extends Vue {
     @Getter public validUser!: string;
 
     public username = '';
-    public success = false;
     public usernameBlank = false;
     public usernameDuplicate = false;
     public submitInput() {
@@ -93,7 +85,7 @@ export default class Users extends Vue {
           return;
         }
 
-        this.$store.dispatch('getGithubData', username);
+        this.$store.dispatch('getGithubData', {username, router: this.$router});
     }
 }
 </script>

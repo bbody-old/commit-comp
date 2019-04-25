@@ -181,16 +181,37 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setRange: (context, range) => {
-      context.commit('setDate', {type: 'start', date: range.start});
-      context.commit('setDate', {type: 'end', date: range.end});
+    setRange: (context, {start, end, router}) => {
+      if (start) {
+        context.commit('setDate', {type: 'start', date: start});
+      }
+
+      if (end) {
+        context.commit('setDate', {type: 'end', date: end});
+      }
+
+      const currentRange = context.getters.getRange;
+      const query = {
+        start: currentRange.start,
+        end: currentRange.end,
+        users: context.getters.getUsers.join(','),
+      };
+      router.push({query});
     },
-    getGithubData: (context, username) => {
+    getGithubData: (context, {username, router}) => {
       return axios.get(`https://api.github.com/users/${username}`)
         .then(() => {
           // Username is valid
           context.commit('addUser', username);
           context.commit('setValidUser', username);
+
+          const currentRange = context.getters.getRange;
+          const query = {
+            start: currentRange.start,
+            end: currentRange.end,
+            users: context.getters.getUsers.join(','),
+          };
+          router.push({query});
 
           return axios.get(`https://github-contributions-api.now.sh/v1/${username}?format=nested`)
             .then((response) => {
@@ -204,7 +225,7 @@ export default new Vuex.Store({
               context.commit('setAPIError', true);
             });
         }).catch((error: any) => {
-          if (error.response.status === 404) {
+          if (error && error.response && error.response.status === 404) {
             context.commit('setInvalidUserError', username);
           } else {
             context.commit('setAPIError', true);

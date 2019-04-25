@@ -19,8 +19,8 @@
         </v-list>
         <v-divider></v-divider>
         <v-card-actions>
-            <v-flex xs12>
-                <v-daterange :value="getRange" @input="setRange"></v-daterange>
+            <v-flex>
+                <v-daterange :value="getRange" @input="changeRange"></v-daterange>
             </v-flex>
         </v-card-actions>
   </v-card>
@@ -37,5 +37,9 @@ import 'vuetify-daterange-picker/dist/vuetify-daterange-picker.css';
 export default class DateSelection extends Vue {
     @Getter('getRange') public getRange: any;
     @Action('setRange') public setRange: any;
+
+    public changeRange(range: DateRange) {
+        this.$store.dispatch('setRange', {router: this.$router, start: range.start, end: range.end});
+    }
 }
 </script>

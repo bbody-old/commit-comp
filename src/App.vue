@@ -27,47 +27,43 @@ const isValidDate = (rawDate: any) => {
 
 @Component
 export default class App extends Vue {
+  @Action('setRange') public setRange: any;
+  @Mutation('setUserTriggeredAction') public setUserTriggeredAction: any;
   public created() {
     const usersQuery = this.$route.query.users as string;
     let users: string[] = [];
-
 
     if (usersQuery) {
       users = usersQuery.split(',');
     }
 
-    const start = this.$route.query.start && isValidDate(this.$route.query.start) ? this.$route.query.start : false;
-    const end = this.$route.query.end && isValidDate(this.$route.query.end) ? this.$route.query.end : false;
+    let start = this.$route.query.start && isValidDate(this.$route.query.start) ? this.$route.query.start : false;
+    let end = this.$route.query.end && isValidDate(this.$route.query.end) ? this.$route.query.end : false;
 
     if (!start && !end) { // Default to this month
       const now = moment();
 
       now.date(1);
-      this.$store.commit('setDate', { type: 'start', date: now.format('YYYY-MM-DD')});
+      start = now.format('YYYY-MM-DD');
 
       now.add(1, 'month').subtract(1, 'day');
-      this.$store.commit('setDate', { type: 'end', date: now.format('YYYY-MM-DD')});
+      end = now.format('YYYY-MM-DD');
     } else if (!end) {
-      this.$store.commit('setDate', { type: 'start', date: start});
+      const startMoment = moment(start, 'YYYY-MM-DD');
+
+      end = startMoment.add(1, 'month').format('YYYY-MM-DD');
     } else if (!start) {
-      this.$store.commit('setDate', { type: 'end', date: end});
-    } else {
-      this.$store.commit('setDate', { type: 'start', date: start});
-      this.$store.commit('setDate', { type: 'end', date: end});
+      const endMoment = moment(end, 'YYYY-MM-DD');
+
+      start = endMoment.subtract(1, 'month').format('YYYY-MM-DD');
     }
+
+    this.$store.dispatch('setRange', {router: this.$router, start, end});
 
     const self = this;
     users.forEach((user) => {
-      self.$store.dispatch('getGithubData', user);
+      self.$store.dispatch('getGithubData', {username: user, router: this.$router});
     });
-
-
-    const query = Object.assign({}, this.$route.query);
-    delete query.users;
-    delete query.start;
-    delete query.end;
-
-    this.$router.replace({query});
   }
 }
 </script>
