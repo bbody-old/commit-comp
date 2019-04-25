@@ -1,14 +1,21 @@
 <template>
   <v-card>
     <v-toolbar color="light-blue lighten-1" dark>
-      <v-toolbar-title>Users</v-toolbar-title>
+      <v-toolbar-title>Github Users</v-toolbar-title>
     </v-toolbar>
 
     <v-alert
-      :value="success"
+      :value="validUser"
       type="success"
     >
-      Successfully added {{username}}.
+      Successfully added {{validUser}}.
+    </v-alert>
+
+    <v-alert
+      :value="invalidUser"
+      type="error"
+    >
+      {{invalidUser}} is not a valid Github user.
     </v-alert>
 
     <v-alert
@@ -55,6 +62,9 @@ import { Mutation, State, Getter } from 'vuex-class';
 @Component
 export default class Users extends Vue {
     @Getter public getUsers!: string[];
+    @Getter public invalidUser!: string;
+    @Getter public validUser!: string;
+
     public username = '';
     public success = false;
     public usernameBlank = false;
@@ -76,7 +86,7 @@ export default class Users extends Vue {
           setTimeout(() => {
             this.usernameDuplicate = false;
             this.username = '';
-          }, 1500);
+          }, 1_500);
 
           return;
         }
@@ -88,7 +98,7 @@ export default class Users extends Vue {
         setTimeout(() => {
             this.success = false;
             this.username = '';
-          }, 1500);
+          }, 1_500);
     }
 }
 </script>

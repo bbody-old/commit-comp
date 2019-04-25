@@ -17,8 +17,12 @@ export default new Vuex.Store({
     heatMap: {} as HeatMap,
     apiError: false as boolean,
     usernameError: '' as string,
+    invalidUser: '' as string,
+    validUser: '' as string,
   },
   getters: {
+    validUser: (store) => store.validUser,
+    invalidUser: (store) => store.invalidUser,
     getUsernameError: (store) => store.usernameError,
     hasAPIError: (store) => store.apiError,
     getAllUsersInfo: (store, getters) => {
@@ -163,6 +167,18 @@ export default new Vuex.Store({
     setAPIError: (store) => {
       store.apiError = true;
     },
+    setInvalidUserError: (store, username) => {
+      store.invalidUser = username;
+      setTimeout(() => {
+        store.invalidUser = '';
+      }, 1_500);
+    },
+    setValidUser: (store, username) => {
+      store.validUser = username;
+      setTimeout(() => {
+        store.validUser = '';
+      }, 1_500);
+    },
   },
   actions: {
     setRange: (context, range) => {
@@ -170,17 +186,29 @@ export default new Vuex.Store({
       context.commit('setDate', {type: 'end', date: range.end});
     },
     getGithubData: (context, username) => {
-      context.commit('addUser', username);
-      return axios.get(`https://github-contributions-api.now.sh/v1/${username}?format=nested`)
-        .then((response) => {
-          return response.data.contributions;
-        })
-        .then((contributionInfo) => {
-            context.commit('setContributions', {username, payload: contributionInfo});
-        })
-        .catch((error: Error) => {
-          context.commit('setFormattedContributions', {username, payload: false});
-          context.commit('setAPIError', true);
+      return axios.get(`https://api.github.com/users/${username}`)
+        .then(() => {
+          // Username is valid
+          context.commit('addUser', username);
+          context.commit('setValidUser', username);
+
+          return axios.get(`https://github-contributions-api.now.sh/v1/${username}?format=nested`)
+            .then((response) => {
+              return response.data.contributions;
+            })
+            .then((contributionInfo) => {
+                context.commit('setContributions', {username, payload: contributionInfo});
+            })
+            .catch((error: Error) => {
+              context.commit('setFormattedContributions', {username, payload: false});
+              context.commit('setAPIError', true);
+            });
+        }).catch((error: any) => {
+          if (error.response.status === 404) {
+            context.commit('setInvalidUserError', username);
+          } else {
+            context.commit('setAPIError', true);
+          }
         });
     },
   },
