@@ -38,6 +38,7 @@
     <v-text-field
       label="Username"
       v-model="username"
+      @keyup.enter="submitInput"
     ></v-text-field>
     <v-btn v-on:click="submitInput" color="success" small fab>
       <v-icon>add</v-icon>
