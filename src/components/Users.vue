@@ -70,7 +70,10 @@ export default class Users extends Vue {
     public usernameBlank = false;
     public usernameDuplicate = false;
     public submitInput() {
-        if (!this.username) {
+        const username = this.username;
+        this.username = '';
+
+        if (!username) {
           this.usernameBlank = true;
           const self = this;
           setTimeout(() => {
@@ -80,25 +83,17 @@ export default class Users extends Vue {
           return;
         }
 
-        if (this.getUsers.includes(this.username)) {
+        if (this.getUsers.includes(username)) {
           this.usernameDuplicate = true;
 
           setTimeout(() => {
             this.usernameDuplicate = false;
-            this.username = '';
           }, 1_500);
 
           return;
         }
 
-        this.$store.dispatch('getGithubData', this.username);
-
-        this.success = true;
-
-        setTimeout(() => {
-            this.success = false;
-            this.username = '';
-          }, 1_500);
+        this.$store.dispatch('getGithubData', username);
     }
 }
 </script>
