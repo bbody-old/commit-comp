@@ -3,7 +3,7 @@
     <v-toolbar color="light-blue lighten-1" dark>
       <v-toolbar-title>Github Users</v-toolbar-title>
     </v-toolbar>
-    
+
     <v-alert
       :value="invalidUser"
       type="error"
@@ -63,7 +63,6 @@ export default class Users extends Vue {
     public usernameDuplicate = false;
     public submitInput() {
         const username = this.username;
-        this.username = '';
 
         if (!username) {
           this.usernameBlank = true;
@@ -80,10 +79,13 @@ export default class Users extends Vue {
 
           setTimeout(() => {
             this.usernameDuplicate = false;
+            this.username = '';
           }, 1_500);
 
           return;
         }
+
+        this.username = '';
 
         this.$store.dispatch('getGithubData', {username, router: this.$router});
     }

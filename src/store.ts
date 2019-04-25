@@ -146,12 +146,7 @@ export default new Vuex.Store({
 
       return `${baseUrl}/#/${urlQuery}`;
     },
-    getRange: (store) => {
-      return {
-        start: store.range.start,
-        end: store.range.end,
-      };
-    },
+    getRange: (store) => store.range,
   },
   mutations: {
     addUser: (store, username: string) => {
@@ -181,6 +176,14 @@ export default new Vuex.Store({
         store.validUser = '';
       }, 1_500);
     },
+    updateQueryString: (store, router) => {
+      const query = {
+        start: store.range.start,
+        end: store.range.end,
+        users: store.users.join(','),
+      };
+      router.push({query});
+    },
   },
   actions: {
     setRange: (context, {start, end, router}) => {
@@ -192,13 +195,7 @@ export default new Vuex.Store({
         context.commit('setDate', {type: 'end', date: end});
       }
 
-      const currentRange = context.getters.getRange;
-      const query = {
-        start: currentRange.start,
-        end: currentRange.end,
-        users: context.getters.getUsers.join(','),
-      };
-      router.push({query});
+      context.commit('updateQueryString', router);
     },
     getGithubData: (context, {username, router}) => {
       return axios.get(`https://api.github.com/users/${username}`)
@@ -206,14 +203,7 @@ export default new Vuex.Store({
           // Username is valid
           context.commit('addUser', username);
           context.commit('setValidUser', username);
-
-          const currentRange = context.getters.getRange;
-          const query = {
-            start: currentRange.start,
-            end: currentRange.end,
-            users: context.getters.getUsers.join(','),
-          };
-          router.push({query});
+          context.commit('updateQueryString', router);
 
           return axios.get(`https://github-contributions-api.now.sh/v1/${username}?format=nested`)
             .then((response) => {
@@ -229,6 +219,11 @@ export default new Vuex.Store({
         }).catch((error: any) => {
           if (error && error.response && error.response.status === 404) {
             context.commit('setInvalidUserError', username);
+          } else if (error && error.response && error.response.status === 403) {
+            // Add because the Github API is getting overwhelmed
+            context.commit('addUser', username);
+            context.commit('setAPIError', true);
+            context.commit('updateQueryString', router);
           } else {
             context.commit('setAPIError', true);
           }
