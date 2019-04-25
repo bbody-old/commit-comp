@@ -122,7 +122,6 @@ export default new Vuex.Store({
       const users = getters.getUsers;
       const startDate = getters.getStartDate;
       const endDate = getters.getEndDate;
-
       const query = [];
 
       if (users && users.length) {
@@ -163,12 +162,6 @@ export default new Vuex.Store({
     },
     setAPIError: (store) => {
       store.apiError = true;
-      setTimeout(() => {
-        store.apiError = false;
-      }, 1500);
-    },
-    setRanking: (store, ranking) => {
-      Vue.set(store, 'ranking', ranking);
     },
   },
   actions: {

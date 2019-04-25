@@ -30,7 +30,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Action, Getter } from 'vuex-class';
-
 const VDaterange = require('vuetify-daterange-picker').VDaterange;
 import 'vuetify-daterange-picker/dist/vuetify-daterange-picker.css';
 

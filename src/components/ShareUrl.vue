@@ -31,7 +31,7 @@ import { Mutation, State, Getter } from 'vuex-class';
 export default class ShareUrl extends Vue {
     @Getter('getShareLink') public getShareLink!: string;
 
-    public copying: boolean = false;
+    private copying: boolean = false;
 
     private get getLink() {
         return this.getShareLink;
