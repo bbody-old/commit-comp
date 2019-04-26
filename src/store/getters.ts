@@ -9,7 +9,7 @@ export default {
     isDevelopmentEnvironment: () => process.env.NODE_ENV === 'development',
     getRange: (store: State) => store.range,
     getAllUsersInfo: (store: State, getters: Getters) => {
-        const users = getters.getUsers as string[];
+        const users = getters.getUsers;
         const infoArray: any[] = [];
 
         users.forEach((user: string) => {

@@ -81,7 +81,7 @@ describe('Getters', () => {
         } as ContributorInfo;
 
         const customGetters = {
-            getUsers: () => ['test'],
+            getUsers: ['test'] as string[],
             getContributionInfo: (username: string) => false as ContributorInfo | boolean,
         };
 
