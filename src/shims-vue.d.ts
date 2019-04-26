@@ -55,3 +55,42 @@ interface RawContributionInfo {
     },
   };
 }
+
+interface State {
+  users: string[];
+  contributionInfo: RawContribution;
+  range: DateRange;
+  formattedContributions: FormattedContributions;
+  heatMap: HeatMap;
+  apiError: boolean;
+  usernameError: string;
+  invalidUser: string;
+  validUser: string;
+}
+
+interface Contributor {
+  username: string;
+  payload: RawContributionInfo;
+}
+
+interface FormattedContributor {
+  username: string;
+  payload: ContributorInfo;
+}
+
+interface DatePayload {
+  date: string;
+  type: 'start' | 'end';
+}
+
+interface Getters {
+  validUser(): string;
+  invalidUser(): string;
+  getUsernameError(): string;
+  hasAPIError(): boolean;
+  getAllUsersInfo(): ContributorInfo[];
+  getContributionInfo(user: string): ContributorInfo;
+  getUsers(): string[];
+  isDevelopmentEnvironment(): boolean;
+  getRange(): DateRange;
+}

@@ -23,6 +23,7 @@ App to track Github commit competitions, can view and rank by:
 - [Jest](https://jestjs.io/)
 - [Cypress](https://www.cypress.io/)
 - [MomentJS](https://momentjs.com/)
+- [Travis](https://travis-ci.org/)
 
 ## Project setup
 ```
