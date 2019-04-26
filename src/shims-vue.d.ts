@@ -84,13 +84,13 @@ interface DatePayload {
 }
 
 interface Getters {
-  validUser(): string;
-  invalidUser(): string;
-  getUsernameError(): string;
-  hasAPIError(): boolean;
-  getAllUsersInfo(): ContributorInfo[];
+  validUser: string;
+  invalidUser: string;
+  getUsernameError: string;
+  hasAPIError: boolean;
+  getAllUsersInfo: ContributorInfo[];
+  getUsers: string[];
+  isDevelopmentEnvironment: boolean;
+  getRange: DateRange;
   getContributionInfo(user: string): ContributorInfo;
-  getUsers(): string[];
-  isDevelopmentEnvironment(): boolean;
-  getRange(): DateRange;
 }
