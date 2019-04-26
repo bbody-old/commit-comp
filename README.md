@@ -1,5 +1,7 @@
 # Commit Comp
 
+[![Build Status](https://travis-ci.org/bbody/commit-comp.svg?branch=master)](https://travis-ci.org/bbody/commit-comp)
+
 App to track Github commit competitions, can view and rank by:
 
 - Total commits
