@@ -28,7 +28,7 @@
     <v-list two-line>
       <template v-for="(user) in getUsers">
         <v-subheader :key="user">
-          <a v-bind:href="'https://github.com/' + user">{{ user }}</a>
+          <a v-bind:href="`https://github.com/${user}`">{{ user }}</a>
         </v-subheader>
       </template>
     </v-list>

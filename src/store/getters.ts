@@ -5,6 +5,9 @@ export default {
     invalidUser: (store: State) => store.invalidUser,
     getUsernameError: (store: State) => store.usernameError,
     hasAPIError: (store: State) => store.apiError,
+    getUsers: (store: State) => store.users,
+    isDevelopmentEnvironment: () => process.env.NODE_ENV === 'development',
+    getRange: (store: State) => store.range,
     getAllUsersInfo: (store: State, getters: Getters) => {
         const users = getters.getUsers();
         const infoArray: any[] = [];
@@ -12,7 +15,7 @@ export default {
         users.forEach((user: string) => {
             const info = getters.getContributionInfo(user);
             if (info) {
-            infoArray.push(info);
+                infoArray.push(info);
             }
         });
         return infoArray;
@@ -42,12 +45,12 @@ export default {
 
         while (true) {
             if (tempDate.isAfter(endDate) || tempDate.isSameOrAfter(moment())) {
-            break;
+                break;
             }
 
             const info = (tempDate.year() === moment().year() ?
-            store.contributionInfo[username].contributions :
-            store.contributionInfo[username])[tempDate.year()][tempDate.month() + 1][tempDate.date()];
+                store.contributionInfo[username].contributions! :
+                store.contributionInfo[username])[tempDate.year()][tempDate.month() + 1][tempDate.date()];
 
 
             formattedContributionInfo.counts.push(info.count);
@@ -82,7 +85,4 @@ export default {
 
         return formattedContributionInfo;
     },
-    getUsers: (store: State) => store.users,
-    isDevelopmentEnvironment: (store: State) => process.env.NODE_ENV === 'development',
-    getRange: (store: State) => store.range,
 };

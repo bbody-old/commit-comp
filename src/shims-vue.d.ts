@@ -41,7 +41,7 @@ interface HeatMap {
 interface RawContribution {
   [username: string]: {
     [year: number]: RawContributionInfo;
-    contributions: {
+    contributions: undefined | {
       [year: number]: RawContributionInfo;
     };
   };
