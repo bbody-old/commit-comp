@@ -155,4 +155,53 @@ describe('Getters', () => {
 
         expect(getters.getContributionInfo(state)('test')).toEqual(contributionInfo);
     });
+
+    it('getContributionInfo with no commits', () => {
+        state.range = {
+            start: '2018-01-05',
+            end: '2018-01-06',
+        };
+        state.contributionInfo = {};
+
+        expect(getters.getContributionInfo(state)('test')).toBe(false);
+
+        const rawContributionInfo = {
+            1: {
+                5: {
+                    count: 0,
+                    date: '2018-01-05',
+                },
+                6: {
+                    count: 0,
+                    date: '2018-01-06',
+                },
+            },
+        } as RawContributionInfo;
+
+        const rawContribution = {
+            test: {
+                2018: rawContributionInfo,
+                contributions: {
+                    2019: rawContributionInfo,
+                },
+            },
+        } as RawContribution;
+
+        const contributionInfo = {
+            counts: [0, 0],
+            dates: ['2018-01-05', '2018-01-06'],
+            daysWithCommits: 0,
+            daysWithoutCommits: 2,
+            total: 2,
+            username: 'test',
+            commits: 0,
+            streak: 0,
+            percentageOfDays: 0,
+            commitsPerDay: 0,
+        } as ContributorInfo;
+
+        state.contributionInfo = rawContribution;
+
+        expect(getters.getContributionInfo(state)('test')).toEqual(contributionInfo);
+    });
 });
