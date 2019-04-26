@@ -1,6 +1,7 @@
 # Commit Comp
 
 [![Build Status](https://travis-ci.org/bbody/commit-comp.svg?branch=master)](https://travis-ci.org/bbody/commit-comp)
+[![Coverage Status](https://coveralls.io/repos/github/bbody/commit-comp/badge.svg?branch=master)](https://coveralls.io/github/bbody/commit-comp?branch=master)
 
 App to track Github commit competitions, can view and rank by:
 
