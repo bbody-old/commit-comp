@@ -21,3 +21,5 @@ deploy:
     repo: bbody/commit-comp
     on:
       branch: master
+after_script:
+  - cat ./coverage/lcov.info | coveralls
