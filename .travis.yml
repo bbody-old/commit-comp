@@ -1,10 +1,16 @@
 language: node_js
+os:
+  - linux
 node_js:
 - 10
 dist: trusty
 install:
   # - cypress install
   - yarn install
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
 script:
   - yarn lint
   - yarn test:unit
