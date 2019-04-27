@@ -68,7 +68,7 @@ describe('Mutations', () => {
         mutations.setInvalidUserError(state, 'test');
         expect(state.invalidUser).toBe('test');
 
-        jest.advanceTimersByTime(1_500);
+        jest.advanceTimersByTime(2_000);
 
         expect(state.invalidUser).toBe('');
     });
@@ -77,7 +77,7 @@ describe('Mutations', () => {
         mutations.setValidUser(state, 'test');
         expect(state.validUser).toBe('test');
 
-        jest.advanceTimersByTime(1_500);
+        jest.advanceTimersByTime(2_000);
 
         expect(state.validUser).toBe('');
     });

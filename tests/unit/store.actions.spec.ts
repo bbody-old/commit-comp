@@ -109,7 +109,7 @@ describe('Actions', () => {
 
             axiosMock.onGet('https://api.github.com/users/test', {}).replyOnce(200, {});
             axiosMock.onGet('https://github-contributions-api.now.sh/v1/test?format=nested', {}).replyOnce(500, {});
-            await actions.getGithubData(context, {username: 'test', router: router as any, firstRun: true});
+            await actions.getGithubData(context, {username: 'test', router: router as any, firstRun: false});
 
             expect(context.commit).toBeCalledTimes(5);
 
@@ -132,12 +132,12 @@ describe('Actions', () => {
                 {}).replyOnce(200, {contributions: 'payload'});
             await actions.getGithubData(context, {username: 'test', router: router as any, firstRun: true});
 
-            expect(context.commit).toBeCalledTimes(4);
+            expect(context.commit).toBeCalledTimes(3);
 
             expect(context.commit.mock.calls[0]).toEqual(['addUser', 'test']);
-            expect(context.commit.mock.calls[1]).toEqual(['setValidUser', 'test']);
-            expect(context.commit.mock.calls[2]).toEqual(['updateQueryString', router]);
-            expect(context.commit.mock.calls[3]).toEqual(
+            // expect(context.commit.mock.calls[1]).toEqual(['setValidUser', 'test']);
+            expect(context.commit.mock.calls[1]).toEqual(['updateQueryString', router]);
+            expect(context.commit.mock.calls[2]).toEqual(
                 ['setContributions', { username: 'test', payload: 'payload' }]);
         });
     });
