@@ -3,7 +3,7 @@ node_js:
 - 10
 dist: trusty
 install:
-  - cypress install
+  # - cypress install
   - yarn install
 script:
   - yarn lint
