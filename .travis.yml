@@ -4,6 +4,7 @@ node_js:
 dist: trusty
 before_script:
 - yarn install
+- cypress install
 script:
 - yarn lint
 - yarn test:unit
