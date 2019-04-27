@@ -12,6 +12,7 @@ script:
 cache:
   directories:
   - node_modules
+  - Cypress
 deploy:
   - provider: pages
     skip_cleanup: true
