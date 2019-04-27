@@ -16,12 +16,17 @@ export default {
         commit('updateQueryString', router);
       },
       getGithubData: ({commit}: any,
-                      {username, router}: {username: string, router: Route}) => {
+                      {username, router, firstRun}:
+                      {username: string, router: Route, firstRun: boolean}) => {
         return axios.get(`https://api.github.com/users/${username}`)
           .then(() => {
             // Username is valid
             commit('addUser', username);
-            commit('setValidUser', username);
+
+            if (!firstRun) {
+              commit('setValidUser', username);
+            }
+
             commit('updateQueryString', router);
 
             return axios.get(`https://github-contributions-api.now.sh/v1/${username}?format=nested`)

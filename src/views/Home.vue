@@ -7,6 +7,7 @@
     <v-container grid-list-md text-xs-center>
       <h1>Commit Competition</h1>
       <v-alert
+        id="apiError"
         :value="hasAPIError"
         type="error">
         API does not appear to be working, please try again later

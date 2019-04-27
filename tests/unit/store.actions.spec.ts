@@ -65,7 +65,7 @@ describe('Actions', () => {
 
             axiosMock.onGet('https://api.github.com/users/test', {}).replyOnce(500, {});
 
-            await actions.getGithubData(context, {username: 'test', router: router as any});
+            await actions.getGithubData(context, {username: 'test', router: router as any, firstRun: true});
 
             expect(context.commit).toBeCalledTimes(1);
             expect(context.commit.mock.calls[0]).toEqual(['setAPIError', true]);
@@ -79,7 +79,7 @@ describe('Actions', () => {
 
             axiosMock.onGet('https://api.github.com/users/test', {}).replyOnce(404, {});
 
-            await actions.getGithubData(context, {username: 'invaliduser', router: router as any});
+            await actions.getGithubData(context, {username: 'invaliduser', router: router as any, firstRun: true});
 
             expect(context.commit).toBeCalledTimes(1);
             expect(context.commit.mock.calls[0]).toEqual(['setInvalidUserError', 'invaliduser']);
@@ -93,7 +93,7 @@ describe('Actions', () => {
 
             axiosMock.onGet('https://api.github.com/users/invaliduser', {}).replyOnce(403, {});
 
-            await actions.getGithubData(context, {username: 'invaliduser', router: router as any});
+            await actions.getGithubData(context, {username: 'invaliduser', router: router as any, firstRun: true});
 
             expect(context.commit).toBeCalledTimes(3);
             expect(context.commit.mock.calls[0]).toEqual(['addUser', 'invaliduser']);
@@ -109,7 +109,7 @@ describe('Actions', () => {
 
             axiosMock.onGet('https://api.github.com/users/test', {}).replyOnce(200, {});
             axiosMock.onGet('https://github-contributions-api.now.sh/v1/test?format=nested', {}).replyOnce(500, {});
-            await actions.getGithubData(context, {username: 'test', router: router as any});
+            await actions.getGithubData(context, {username: 'test', router: router as any, firstRun: true});
 
             expect(context.commit).toBeCalledTimes(5);
 
@@ -130,7 +130,7 @@ describe('Actions', () => {
             axiosMock.onGet('https://api.github.com/users/test', {}).replyOnce(200, {});
             axiosMock.onGet('https://github-contributions-api.now.sh/v1/test?format=nested',
                 {}).replyOnce(200, {contributions: 'payload'});
-            await actions.getGithubData(context, {username: 'test', router: router as any});
+            await actions.getGithubData(context, {username: 'test', router: router as any, firstRun: true});
 
             expect(context.commit).toBeCalledTimes(4);
 

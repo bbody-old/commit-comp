@@ -5,13 +5,13 @@
         </v-toolbar>
         <v-list two-line>
             <v-list-tile>
-                <v-list-tile-content>
+                <v-list-tile-content id="startDate">
                     <v-list-tile-title>{{getRange.start}}</v-list-tile-title>
                     <v-list-tile-sub-title>From</v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
             <v-list-tile>
-                <v-list-tile-content>
+                <v-list-tile-content id="endDate">
                     <v-list-tile-title>{{getRange.end}}</v-list-tile-title>
                     <v-list-tile-sub-title>Until</v-list-tile-sub-title>
                 </v-list-tile-content>

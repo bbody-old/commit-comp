@@ -36,30 +36,35 @@ export default class UserTable extends Vue {
           align: 'center',
           sortable: true,
           value: 'commits',
+          class: 'commits',
         },
         {
           text: 'Days with commits',
           align: 'center',
           sortable: true,
           value: 'daysWithCommits',
+          class: 'daysWithCommits',
         },
         {
           text: 'Commits per day',
           align: 'center',
           sortable: true,
           value: 'commitsPerDay',
+          class: 'commitsPerDay',
         },
         {
           text: '% of days',
           align: 'center',
           sortable: true,
           value: 'percentageOfDays',
+          class: 'percentageOfDays',
         },
         {
           text: 'Longest streak',
           align: 'center',
           sortable: true,
           value: 'streak',
+          class: 'streak',
         },
     ];
 }

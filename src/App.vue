@@ -63,8 +63,9 @@ export default class App extends Vue {
     this.$store.dispatch('setRange', {router: this.$router, start, end});
 
     const self = this;
-    users.forEach((user) => {
-      self.$store.dispatch('getGithubData', {username: user, router: this.$router});
+    users.forEach(async (user) => {
+      self.$store.dispatch('getGithubData', {username: user, router: this.$router, firstRun: true});
+      this.$store.commit('setValidUser', '');
     });
   }
 }

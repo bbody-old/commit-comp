@@ -1,10 +1,11 @@
 <template>
-  <v-card>
+  <v-card id="user-card">
     <v-toolbar color="light-blue lighten-1" dark>
       <v-toolbar-title>Github Users</v-toolbar-title>
     </v-toolbar>
 
     <v-alert
+      id="invalidUser"
       :value="invalidUser"
       type="error"
     >
@@ -12,6 +13,7 @@
     </v-alert>
 
     <v-alert
+      id="usernameBlank"
       :value="usernameBlank"
       type="error"
     >
@@ -19,10 +21,19 @@
     </v-alert>
 
     <v-alert
+      id="usernameDuplicate"
       :value="usernameDuplicate"
       type="error"
     >
       {{username}} already exists in the list
+    </v-alert>
+
+    <v-alert
+      id="validUser"
+      :value="validUser"
+      type="success"
+    >
+      {{validUser}} was successfully added
     </v-alert>
 
     <v-list two-line>
@@ -87,7 +98,7 @@ export default class Users extends Vue {
 
         this.username = '';
 
-        this.$store.dispatch('getGithubData', {username, router: this.$router});
+        this.$store.dispatch('getGithubData', {username, router: this.$router, firstRun: false});
     }
 }
 </script>

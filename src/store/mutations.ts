@@ -21,13 +21,13 @@ export default {
       store.invalidUser = username;
       setTimeout(() => {
         store.invalidUser = '';
-      }, 1_500);
+      }, 2_000);
     },
     setValidUser: (store: State, username: string) => {
       store.validUser = username;
       setTimeout(() => {
         store.validUser = '';
-      }, 1_500);
+      }, 2_000);
     },
     updateQueryString: (store: State, router: VueRouter) => {
       const query = {
