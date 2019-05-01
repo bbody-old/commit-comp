@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/bbody/commit-comp.svg?branch=master)](https://travis-ci.org/bbody/commit-comp)
 [![Coverage Status](https://coveralls.io/repos/github/bbody/commit-comp/badge.svg?branch=master)](https://coveralls.io/github/bbody/commit-comp?branch=master)
 
-App to track Github commit competitions, can view and rank by:
+App to track Github commit competitions ([Read more](https://www.brendonbody.com/2019/04/28/commit-competition/)), can view and rank by:
 
 - Total commits
 - Days with commits
