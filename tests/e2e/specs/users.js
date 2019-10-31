@@ -17,7 +17,7 @@ describe('Users', () => {
         cy.contains('[role="list"] a', 'test')
         cy.get('[role="list"] a').should('have.attr', 'href', 'https://github.com/test')
 
-        cy.get('#validUser').should('not.have.attr', 'style')
+        cy.get('#validUser').should('be.visible')
         cy.contains('#validUser div', 'test was successfully added')
 
         cy.contains('table tbody tr:first-of-type td:nth-of-type(1)', 'test')
@@ -42,7 +42,7 @@ describe('Users', () => {
         cy.contains('[role="list"] a', 'test')
         cy.get('[role="list"] a').should('have.attr', 'href', 'https://github.com/test')
 
-        cy.get('#validUser').should('not.have.attr', 'style')
+        cy.get('#validUser').should('be.visible')
         cy.contains('#validUser div', 'test was successfully added')
 
         cy.contains('table tbody tr:first-of-type td:nth-of-type(1)', 'test')
@@ -66,7 +66,7 @@ describe('Users', () => {
 
         cy.get('#user-card input').type('test{enter}')
         
-        cy.get('#usernameDuplicate').should('not.have.attr', 'style')
+        cy.get('#usernameDuplicate').should('be.visible')
         cy.contains('#usernameDuplicate div', 'test already exists in the list')
 
         clock.tick(2000);
@@ -86,7 +86,7 @@ describe('Users', () => {
         cy.visit('/')
         cy.get('#user-card input').type('test{enter}')
         
-        cy.get('#invalidUser').should('not.have.attr', 'style')
+        cy.get('#invalidUser').should('be.visible')
         cy.contains('#invalidUser div', 'test is not a valid Github user')
     })
 
@@ -102,7 +102,7 @@ describe('Users', () => {
         cy.visit('/')
         cy.get('#user-card input').type('test{enter}')
         
-        cy.get('#apiError').should('not.have.attr', 'style')
+        cy.get('#apiError').should('be.visible')
         cy.contains('#apiError div', 'API does not appear to be working, please try again later')
     })
 
@@ -118,7 +118,7 @@ describe('Users', () => {
         cy.visit('/')
         cy.get('#user-card input').type('test{enter}')
         
-        cy.get('#apiError').should('not.have.attr', 'style')
+        cy.get('#apiError').should('be.visible')
         cy.contains('#apiError div', 'API does not appear to be working, please try again later')
 
         cy.contains('[role="list"] a', 'test')
