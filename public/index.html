@@ -32,10 +32,13 @@
     <noscript>
       <strong>We're sorry but Commit Comp doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    
     <div id="app"></div>
     <!-- built files will be auto injected -->
-
-    <div id="codefund"><!-- fallback content --></div>
-    <script src="https://codefund.io/properties/553/funder.js" async="async"></script>
+    
+    <% if (NODE_ENV === "production"){ %>
+      <div id="codefund"><!-- fallback content --></div>
+      <script src="https://codefund.io/properties/553/funder.js" async="async"></script>
+    <% } %>
   </body>
 </html>
