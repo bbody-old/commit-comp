@@ -12,7 +12,8 @@ App to track Github commit competitions ([Read more](https://www.brendonbody.com
 - Percentage of days
 - Longest streak
 
-[Demo](https://commit-comp.bbody.io)
+- [Demo](https://commit-comp.bbody.io)
+- [Blog Post](https://www.brendonbody.com/2019/04/28/commit-competition/)
 
 ![Screenshot](screenshot.png)
 
