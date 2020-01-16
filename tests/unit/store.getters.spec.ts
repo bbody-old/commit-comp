@@ -108,6 +108,18 @@ describe('Getters', () => {
     });
 
     describe('getContributionInfo', () => {
+        let timeMock: jest.Mock<number, []>;
+
+        beforeEach(() => {
+            timeMock = jest.spyOn(Date, 'now').mockImplementation((): any => {
+                return new Date('2019-12-01');
+            });
+        });
+
+        afterEach(() => {
+            timeMock.mockRestore();
+        });
+
         it('handles last year', () => {
             state.range = {
                 start: '2018-01-05',
