@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+const TIMEOUT = 2_000;
+
 export default {
     addUser: (store: State, username: string) => {
       store.users.push(username);
@@ -21,13 +23,13 @@ export default {
       store.invalidUser = username;
       setTimeout(() => {
         store.invalidUser = '';
-      }, 2_000);
+      }, TIMEOUT);
     },
     setValidUser: (store: State, username: string) => {
       store.validUser = username;
       setTimeout(() => {
         store.validUser = '';
-      }, 2_000);
+      }, TIMEOUT);
     },
     updateQueryString: (store: State, router: VueRouter) => {
       const query = {

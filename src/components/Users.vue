@@ -62,7 +62,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Mutation, State, Getter } from 'vuex-class';
-
+const TIMEOUT = 1_500;
 @Component
 export default class Users extends Vue {
     @Getter public getUsers!: string[];
@@ -77,10 +77,9 @@ export default class Users extends Vue {
 
         if (!username) {
           this.usernameBlank = true;
-          const self = this;
           setTimeout(() => {
             this.usernameBlank = false;
-          }, 1500);
+          }, TIMEOUT);
 
           return;
         }
@@ -91,7 +90,7 @@ export default class Users extends Vue {
           setTimeout(() => {
             this.usernameDuplicate = false;
             this.username = '';
-          }, 1_500);
+          }, TIMEOUT);
 
           return;
         }

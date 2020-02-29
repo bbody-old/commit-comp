@@ -17,7 +17,6 @@ import {
   namespace,
 } from 'vuex-class';
 
-// const moment = require('moment');
 import moment from 'moment';
 
 const isValidDate = (rawDate: any) => {
@@ -62,12 +61,10 @@ export default class App extends Vue {
 
     this.$store.dispatch('setRange', {router: this.$router, start, end});
 
-    const self = this;
     users.forEach(async (user) => {
-      self.$store.dispatch('getGithubData', {username: user, router: this.$router, firstRun: true});
+      this.$store.dispatch('getGithubData', {username: user, router: this.$router, firstRun: true});
       this.$store.commit('setValidUser', '');
     });
   }
 }
 </script>
-

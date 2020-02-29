@@ -9,7 +9,7 @@ import 'vuetify/dist/vuetify.min.css';
 Vue.use(Clipboard);
 Vue.use(Vuetify);
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = process.env.NODE_ENV !== 'production';
 
 new Vue({
   router,
