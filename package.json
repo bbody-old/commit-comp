@@ -10,7 +10,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "axios-mock-adapter": "^1.16.0",
     "core-js": "^2.6.5",
     "coveralls": "^3.0.3",
