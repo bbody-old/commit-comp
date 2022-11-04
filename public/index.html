@@ -35,19 +35,5 @@
     
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <% if (NODE_ENV === "production"){ %>
-      <div id="codefund"><!-- fallback content --></div>
-      <script src="https://codefund.io/properties/553/funder.js" async="async"></script>
-    <% } %>
-    <div id="issue-embed"></div>
-    <script src="https://cdn.issueembed.dev/issue-embed.min.js"></script>
-    <script>
-      window.onload = function() {
-        issueEmbed.init("#issue-embed",{
-          key: "755470cf-4d50-f6c6-96e9-e9c6a8457362",
-          position: "MIDDLE-BOTTOM"
-        });
-      };
-    </script>
   </body>
 </html>
